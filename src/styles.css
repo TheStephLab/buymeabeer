@@ -101,7 +101,8 @@ a:hover {
 }
 
 .page-shell,
-.noscript {
+.noscript,
+.system-message {
   width: min(100% - 2.25rem, 76rem);
   margin: 0 auto;
 }
@@ -259,6 +260,13 @@ h1 em {
   color: var(--burgundy);
   font-size: 1.1rem;
   font-weight: 650;
+}
+
+.price-source {
+  margin: -1.15rem 0 1.8rem;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  line-height: 1.2;
 }
 
 .location-actions {
@@ -462,16 +470,19 @@ footer p {
   margin: 0;
 }
 
-.noscript {
+.noscript,
+.system-message {
   max-width: 40rem;
   padding: 15vh 0;
 }
 
-.noscript h1 {
+.noscript h1,
+.system-message h1 {
   max-width: 12ch;
 }
 
-.noscript p:last-child {
+.noscript p:last-child,
+.system-message p:last-child {
   max-width: 32rem;
   color: var(--ink-soft);
   font-size: 1.2rem;

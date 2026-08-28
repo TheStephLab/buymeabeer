@@ -4,6 +4,8 @@ on:
   pull_request:
   push:
     branches: [main]
+  schedule:
+    - cron: "17 8 * * 1"
 
 permissions:
   contents: read
@@ -22,8 +24,11 @@ jobs:
       - run: npm run lint
       - run: npm run typecheck
       - run: npm run test
+      - run: npm run price:validate
+      - name: Check pricing expiry horizon
+        if: github.event_name == 'schedule'
+        run: npm run price:check-expiry
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
-      - run: npm run build
         env:
           VITE_PAYPAL_ME_USERNAME: beerfriend

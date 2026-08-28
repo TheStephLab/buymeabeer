@@ -54,9 +54,9 @@ export type AppStatus =
   | "idle"
   | "locating"
   | "resolved"
+  | "editing"
   | "unsupported"
-  | "needs-manual-location"
-  | "error";
+  | "needs-manual-location";
 
 export interface AppState {
   status: AppStatus;

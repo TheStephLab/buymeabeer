@@ -1,6 +1,5 @@
-import { paymentConfiguration } from "../config";
 import type { PriceDataset, ResolvedPrice, ResolutionSource } from "../types";
-import { createPayPalMeUrl, formatPounds } from "../domain/payment";
+import { formatPounds, type PaymentProvider } from "../domain/payment";
 import { resolvePrice } from "../domain/pricing";
 import {
   BigDataCloudLocationProvider,
@@ -56,6 +55,20 @@ function requiredElement<T extends Element>(
   return element;
 }
 
+function escapeHtml(value: string): string {
+  return value.replace(
+    /[&<>"']/g,
+    (character) =>
+      ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+      })[character]!,
+  );
+}
+
 function sourceText(source: ResolutionSource): string {
   if (source === "ip") {
     return "Approximate location from your network";
@@ -76,6 +89,14 @@ function resolutionLabel(resolved: ResolvedPrice): string {
   return `Average in ${resolved.zone.label}`;
 }
 
+function formatObservationDate(value: string): string {
+  return new Intl.DateTimeFormat("en-GB", {
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${value}T00:00:00Z`));
+}
+
 function optionGroups(dataset: PriceDataset): string {
   const regions = dataset.zones.filter((zone) => zone.kind === "region");
   const cities = dataset.zones.filter((zone) => zone.kind === "city");
@@ -83,17 +104,20 @@ function optionGroups(dataset: PriceDataset): string {
     .map((region) => {
       const options = cities
         .filter((city) => city.parentRegionId === region.id)
-        .map((city) => `<option value="${city.id}">${city.label}</option>`)
+        .map(
+          (city) =>
+            `<option value="${escapeHtml(city.id)}">${escapeHtml(city.label)}</option>`,
+        )
         .join("");
       return options
-        ? `<optgroup label="${region.label}">${options}</optgroup>`
+        ? `<optgroup label="${escapeHtml(region.label)}">${options}</optgroup>`
         : "";
     })
     .join("");
   const regionOptions = regions
     .map(
       (region) =>
-        `<option value="${region.id}">${region.label} region</option>`,
+        `<option value="${escapeHtml(region.id)}">${escapeHtml(region.label)} region</option>`,
     )
     .join("");
 
@@ -165,7 +189,8 @@ function persistSelection(resolved: ResolvedPrice): void {
 export function createApp(
   root: HTMLElement,
   dataset: PriceDataset,
-  provider: LocationProvider = new BigDataCloudLocationProvider(),
+  paymentProvider: PaymentProvider,
+  locationProvider: LocationProvider = new BigDataCloudLocationProvider(),
 ): void {
   let state = initialState;
   const stored = loadStoredSelection(dataset);
@@ -191,13 +216,14 @@ export function createApp(
           <p id="location-status" class="location-status" aria-live="polite"></p>
           <p id="price-heading" class="price" aria-live="polite">—</p>
           <p id="price-context" class="price-context">Choose how you would like to set your UK location.</p>
+          <p id="price-source" class="price-source" hidden></p>
           <div class="location-actions">
             <button class="button button-primary" id="locate-button" type="button">Use my location</button>
             <label class="manual-label" for="manual-location">Or choose it yourself</label>
             <select id="manual-location" name="location">${optionGroups(dataset)}</select>
           </div>
           <a id="payment-link" class="button button-payment is-disabled" role="button" aria-disabled="true">Choose a location to buy a beer</a>
-          <p id="payment-note" class="payment-note">Payment opens on PayPal. You can review the exact amount before paying.</p>
+          <p id="payment-note" class="payment-note">Payment opens with our payment provider. You can review the exact amount before paying.</p>
           <div class="card-tools">
             <button id="change-location" class="text-button" type="button" hidden>Change location</button>
             <button id="forget-location" class="text-button" type="button" hidden>Forget this location</button>
@@ -228,7 +254,7 @@ export function createApp(
         <p>Prices are estimates, reviewed ${dataset.reviewedAt}. Sources: ${dataset.sources
           .map(
             (source) =>
-              `<a href="${source.url}" target="_blank" rel="noopener noreferrer">${source.publisher}</a>`,
+              `<a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.publisher)}</a>`,
           )
           .join(" · ")}.</p>
       </footer>
@@ -243,6 +269,10 @@ export function createApp(
   const priceContext = requiredElement<HTMLParagraphElement>(
     root,
     "#price-context",
+  );
+  const priceSource = requiredElement<HTMLParagraphElement>(
+    root,
+    "#price-source",
   );
   const locateButton = requiredElement<HTMLButtonElement>(
     root,
@@ -280,9 +310,10 @@ export function createApp(
 
   const render = (): void => {
     const resolved = state.resolved;
-    const paymentUrl = resolved
-      ? createPayPalMeUrl(paymentConfiguration, resolved.zone.amountMinor)
-      : undefined;
+    const paymentUrl =
+      state.status === "resolved" && resolved
+        ? paymentProvider.createPaymentUrl(resolved.zone.amountMinor)
+        : undefined;
     const hasResolvedPrice = state.status === "resolved" && Boolean(resolved);
 
     locationStatus.textContent =
@@ -294,10 +325,36 @@ export function createApp(
       ? formatPounds(resolved.zone.amountMinor)
       : "—";
     priceContext.textContent = resolved
-      ? `${resolutionLabel(resolved)}${resolved.approximate ? " · approximate" : ""}`
+      ? `${resolutionLabel(resolved)}${resolved.approximate ? " · approximate" : ""}${state.status === "editing" ? " · choose a replacement below" : ""}`
       : state.status === "unsupported"
         ? "UK locations are supported in this first edition."
         : "Choose how you would like to set your UK location.";
+    priceSource.replaceChildren();
+    priceSource.hidden = !resolved;
+    if (resolved) {
+      const sources = dataset.sources.filter((source) =>
+        resolved.zone.sourceIds.includes(source.id),
+      );
+      priceSource.append(
+        document.createTextNode(
+          `Observed ${formatObservationDate(resolved.zone.observedAt)} · ${
+            sources.length === 1 ? "Source: " : "Sources: "
+          }`,
+        ),
+      );
+      for (const [index, source] of sources.entries()) {
+        if (index > 0) {
+          priceSource.append(document.createTextNode(" · "));
+        }
+        const link = document.createElement("a");
+        link.href = source.url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.referrerPolicy = "no-referrer";
+        link.textContent = source.publisher;
+        priceSource.append(link);
+      }
+    }
     locateButton.disabled = state.status === "locating";
     locateButton.textContent =
       state.status === "locating" ? "Finding your area…" : "Use my location";
@@ -310,25 +367,28 @@ export function createApp(
       paymentLink.href = paymentUrl.toString();
       paymentLink.target = "_blank";
       paymentLink.rel = "noopener noreferrer";
+      paymentLink.referrerPolicy = "no-referrer";
       paymentLink.classList.remove("is-disabled");
       paymentLink.removeAttribute("aria-disabled");
       paymentLink.removeAttribute("tabindex");
       paymentLink.textContent = `Buy me a beer for ${amount}`;
-      paymentNote.textContent =
-        "Payment opens on PayPal. You can review the exact amount before paying.";
+      paymentNote.textContent = `Payment opens on ${paymentProvider.displayName}. You can review the exact amount before paying.`;
     } else {
       paymentLink.removeAttribute("href");
       paymentLink.removeAttribute("target");
       paymentLink.classList.add("is-disabled");
       paymentLink.setAttribute("aria-disabled", "true");
       paymentLink.tabIndex = -1;
-      paymentLink.textContent = hasResolvedPrice
-        ? "PayPal.Me needs to be configured"
-        : "Choose a location to buy a beer";
+      paymentLink.textContent =
+        state.status === "editing"
+          ? "Choose a new location to continue"
+          : hasResolvedPrice
+            ? "Payment provider needs to be configured"
+            : "Choose a location to buy a beer";
       paymentNote.textContent =
-        hasResolvedPrice && paymentConfiguration.error
-          ? paymentConfiguration.error
-          : "Payment opens on PayPal once a UK price is selected.";
+        hasResolvedPrice && paymentProvider.configurationError
+          ? paymentProvider.configurationError
+          : `Payment opens on ${paymentProvider.displayName} once a UK price is selected.`;
     }
   };
 
@@ -337,7 +397,7 @@ export function createApp(
     render();
 
     try {
-      const location = await locateVisitor(provider);
+      const location = await locateVisitor(locationProvider);
       if (location.countryCode.toUpperCase() !== "GB") {
         state = transition(state, { type: "unsupported" });
       } else {
@@ -348,7 +408,9 @@ export function createApp(
             message:
               "We could not match that UK location. Please choose one below.",
           });
+          render();
           manualLocation.focus();
+          return;
         } else {
           applyResolved({
             ...resolved,
@@ -365,7 +427,9 @@ export function createApp(
           message:
             "We could not find a location. Please choose a UK area below.",
         });
+        render();
         manualLocation.focus();
+        return;
       } else {
         throw error;
       }
@@ -394,7 +458,9 @@ export function createApp(
   });
 
   changeLocation.addEventListener("click", () => {
-    locationStatus.textContent = "Choose another UK city or region.";
+    state = transition(state, { type: "edit" });
+    manualLocation.value = "";
+    render();
     manualLocation.focus();
   });
 

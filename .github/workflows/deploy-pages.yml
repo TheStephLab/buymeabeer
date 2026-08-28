@@ -1,9 +1,9 @@
 name: Deploy GitHub Pages
 
 on:
-  push:
-    branches: [main]
-  workflow_dispatch:
+  workflow_run:
+    workflows: ["Quality checks"]
+    types: [completed]
 
 permissions:
   contents: read
@@ -12,31 +12,32 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   deploy:
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
       - uses: actions/configure-pages@v5
       - uses: actions/setup-node@v5
         with:
           node-version-file: .node-version
           cache: npm
       - run: npm ci
-      - name: Check public payment profile
+      - name: Build production site
         env:
           VITE_PAYPAL_ME_USERNAME: ${{ vars.PAYPAL_ME_USERNAME }}
-        run: |
-          test -n "$VITE_PAYPAL_ME_USERNAME"
-          test "$VITE_PAYPAL_ME_USERNAME" != "your-paypal-me-username"
-      - run: npm run build
-        env:
-          VITE_PAYPAL_ME_USERNAME: ${{ vars.PAYPAL_ME_USERNAME }}
+        run: npm run build:production
       - uses: actions/upload-pages-artifact@v4
         with:
           path: dist

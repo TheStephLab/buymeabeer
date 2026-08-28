@@ -1,28 +1,27 @@
 {
   "schemaVersion": "1.0",
-  "datasetVersion": "2026.08.19",
-  "reviewedAt": "2026-08-19",
+  "datasetVersion": "2026.08.28",
+  "reviewedAt": "2026-08-28",
   "supportedCountries": ["GB"],
   "nationalBenchmarkZoneId": "gb-national",
   "sources": [
     {
-      "id": "ons-czms",
-      "publisher": "Office for National Statistics",
-      "title": "RPI: Average price of draught lager, per pint (CZMS)",
-      "url": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/czms/mm23",
-      "publishedAt": "2026-08-19",
-      "accessedAt": "2026-08-27",
-      "licence": "Open Government Licence v3.0",
-      "methodologyNote": "Latest usable monthly observation in this ONS series: 2025 JAN, 483 pence."
+      "id": "cga-regional-express-2025",
+      "publisher": "CGA (NIQ), reported by Express.co.uk",
+      "title": "UK's cheapest and most expensive areas for a pint",
+      "url": "https://www.express.co.uk/life-style/food/2056579/uks-cheapest-most-expensive-areas",
+      "publishedAt": "2025-05-17",
+      "accessedAt": "2026-08-28",
+      "methodologyNote": "Express explicitly publishes the UK average and all 12 regional values from data CGA shared with Sky. CGA's underlying fieldwork and sample are not public; secondary reports describe the figures as AI-assisted analysis of retail price index information. The publication date is used as the observation date because no fieldwork date is disclosed."
     },
     {
-      "id": "finder-pint-guide",
+      "id": "finder-city-prices-2026",
       "publisher": "Finder",
       "title": "International Pint Price Map",
       "url": "https://www.finder.com/uk/banking/international-pint-price-map",
-      "publishedAt": "2025-08-27",
-      "accessedAt": "2026-08-19",
-      "methodologyNote": "Regional and city estimates are an editorial indication based on the guide's public UK comparisons; they are not a venue quote."
+      "publishedAt": "2026-04-01",
+      "accessedAt": "2026-08-28",
+      "methodologyNote": "Finder explicitly publishes each retained city value. Its methodology averages Expatistan and Numbeo cost-of-living data as of April 2026, using one source alone where both are unavailable."
     }
   ],
   "zones": [
@@ -31,10 +30,10 @@
       "countryCode": "GB",
       "kind": "country",
       "label": "UK average",
-      "amountMinor": 483,
+      "amountMinor": 460,
       "currency": "GBP",
-      "observedAt": "2025-01-01",
-      "sourceIds": ["ons-czms"],
+      "observedAt": "2025-05-17",
+      "sourceIds": ["cga-regional-express-2025"],
       "aliases": ["United Kingdom", "Great Britain", "England"]
     },
     {
@@ -42,10 +41,10 @@
       "countryCode": "GB",
       "kind": "region",
       "label": "London",
-      "amountMinor": 648,
+      "amountMinor": 544,
       "currency": "GBP",
-      "observedAt": "2025-08-27",
-      "sourceIds": ["finder-pint-guide"],
+      "observedAt": "2025-05-17",
+      "sourceIds": ["cga-regional-express-2025"],
       "aliases": ["Greater London", "Inner London", "Outer London"]
     },
     {
@@ -53,10 +52,10 @@
       "countryCode": "GB",
       "kind": "region",
       "label": "Scotland",
-      "amountMinor": 475,
+      "amountMinor": 442,
       "currency": "GBP",
-      "observedAt": "2025-08-27",
-      "sourceIds": ["finder-pint-guide"],
+      "observedAt": "2025-05-17",
+      "sourceIds": ["cga-regional-express-2025"],
       "aliases": []
     },
     {
@@ -64,10 +63,10 @@
       "countryCode": "GB",
       "kind": "region",
       "label": "Wales",
-      "amountMinor": 442,
+      "amountMinor": 421,
       "currency": "GBP",
-      "observedAt": "2025-08-27",
-      "sourceIds": ["finder-pint-guide"],
+      "observedAt": "2025-05-17",
+      "sourceIds": ["cga-regional-express-2025"],
       "aliases": []
     },
     {
@@ -75,10 +74,10 @@
       "countryCode": "GB",
       "kind": "region",
       "label": "Northern Ireland",
-      "amountMinor": 431,
+      "amountMinor": 442,
       "currency": "GBP",
-      "observedAt": "2025-08-27",
-      "sourceIds": ["finder-pint-guide"],
+      "observedAt": "2025-05-17",
+      "sourceIds": ["cga-regional-express-2025"],
       "aliases": ["N. Ireland", "Ulster"]
     },
     {
@@ -86,10 +85,10 @@
       "countryCode": "GB",
       "kind": "region",
       "label": "North East",
-      "amountMinor": 440,
+      "amountMinor": 428,
       "currency": "GBP",
-      "observedAt": "2025-08-27",
-      "sourceIds": ["finder-pint-guide"],
+      "observedAt": "2025-05-17",
+      "sourceIds": ["cga-regional-express-2025"],
       "aliases": [
         "North East England",
         "Tyne and Wear",
@@ -102,10 +101,10 @@
       "countryCode": "GB",
       "kind": "region",
       "label": "North West",
-      "amountMinor": 462,
+      "amountMinor": 442,
       "currency": "GBP",
-      "observedAt": "2025-08-27",
-      "sourceIds": ["finder-pint-guide"],
+      "observedAt": "2025-05-17",
+      "sourceIds": ["cga-regional-express-2025"],
       "aliases": [
         "North West England",
         "Merseyside",
@@ -120,10 +119,10 @@
       "countryCode": "GB",
       "kind": "region",
       "label": "Yorkshire and the Humber",
-      "amountMinor": 451,
+      "amountMinor": 442,
       "currency": "GBP",
-      "observedAt": "2025-08-27",
-      "sourceIds": ["finder-pint-guide"],
+      "observedAt": "2025-05-17",
+      "sourceIds": ["cga-regional-express-2025"],
       "aliases": [
         "Yorkshire",
         "The Humber",
@@ -138,10 +137,10 @@
       "countryCode": "GB",
       "kind": "region",
       "label": "East Midlands",
-      "amountMinor": 460,
+      "amountMinor": 442,
       "currency": "GBP",
-      "observedAt": "2025-08-27",
-      "sourceIds": ["finder-pint-guide"],
+      "observedAt": "2025-05-17",
+      "sourceIds": ["cga-regional-express-2025"],
       "aliases": [
         "Derbyshire",
         "Leicestershire",
@@ -156,10 +155,10 @@
       "countryCode": "GB",
       "kind": "region",
       "label": "West Midlands",
-      "amountMinor": 467,
+      "amountMinor": 442,
       "currency": "GBP",
-      "observedAt": "2025-08-27",
-      "sourceIds": ["finder-pint-guide"],
+      "observedAt": "2025-05-17",
+      "sourceIds": ["cga-regional-express-2025"],
       "aliases": [
         "West Midlands County",
         "Shropshire",
@@ -174,11 +173,12 @@
       "countryCode": "GB",
       "kind": "region",
       "label": "East of England",
-      "amountMinor": 492,
+      "amountMinor": 456,
       "currency": "GBP",
-      "observedAt": "2025-08-27",
-      "sourceIds": ["finder-pint-guide"],
+      "observedAt": "2025-05-17",
+      "sourceIds": ["cga-regional-express-2025"],
       "aliases": [
+        "East England",
         "East Anglia",
         "Bedfordshire",
         "Cambridgeshire",
@@ -193,10 +193,10 @@
       "countryCode": "GB",
       "kind": "region",
       "label": "South East",
-      "amountMinor": 543,
+      "amountMinor": 494,
       "currency": "GBP",
-      "observedAt": "2025-08-27",
-      "sourceIds": ["finder-pint-guide"],
+      "observedAt": "2025-05-17",
+      "sourceIds": ["cga-regional-express-2025"],
       "aliases": [
         "Berkshire",
         "Buckinghamshire",
@@ -214,12 +214,11 @@
       "countryCode": "GB",
       "kind": "region",
       "label": "South West",
-      "amountMinor": 517,
+      "amountMinor": 463,
       "currency": "GBP",
-      "observedAt": "2025-08-27",
-      "sourceIds": ["finder-pint-guide"],
+      "observedAt": "2025-05-17",
+      "sourceIds": ["cga-regional-express-2025"],
       "aliases": [
-        "Bristol",
         "Cornwall",
         "Devon",
         "Dorset",
@@ -234,10 +233,10 @@
       "kind": "city",
       "label": "London",
       "parentRegionId": "gb-london",
-      "amountMinor": 648,
+      "amountMinor": 675,
       "currency": "GBP",
-      "observedAt": "2025-08-27",
-      "sourceIds": ["finder-pint-guide"],
+      "observedAt": "2026-04-01",
+      "sourceIds": ["finder-city-prices-2026"],
       "aliases": ["City of London", "Westminster"]
     },
     {
@@ -246,10 +245,10 @@
       "kind": "city",
       "label": "Birmingham",
       "parentRegionId": "gb-west-midlands",
-      "amountMinor": 483,
+      "amountMinor": 504,
       "currency": "GBP",
-      "observedAt": "2025-08-27",
-      "sourceIds": ["finder-pint-guide"],
+      "observedAt": "2026-04-01",
+      "sourceIds": ["finder-city-prices-2026"],
       "aliases": []
     },
     {
@@ -258,10 +257,10 @@
       "kind": "city",
       "label": "Manchester",
       "parentRegionId": "gb-north-west",
-      "amountMinor": 478,
+      "amountMinor": 572,
       "currency": "GBP",
-      "observedAt": "2025-08-27",
-      "sourceIds": ["finder-pint-guide"],
+      "observedAt": "2026-04-01",
+      "sourceIds": ["finder-city-prices-2026"],
       "aliases": []
     },
     {
@@ -270,10 +269,10 @@
       "kind": "city",
       "label": "Liverpool",
       "parentRegionId": "gb-north-west",
-      "amountMinor": 470,
+      "amountMinor": 477,
       "currency": "GBP",
-      "observedAt": "2025-08-27",
-      "sourceIds": ["finder-pint-guide"],
+      "observedAt": "2026-04-01",
+      "sourceIds": ["finder-city-prices-2026"],
       "aliases": []
     },
     {
@@ -282,10 +281,10 @@
       "kind": "city",
       "label": "Leeds",
       "parentRegionId": "gb-yorkshire-humber",
-      "amountMinor": 464,
+      "amountMinor": 524,
       "currency": "GBP",
-      "observedAt": "2025-08-27",
-      "sourceIds": ["finder-pint-guide"],
+      "observedAt": "2026-04-01",
+      "sourceIds": ["finder-city-prices-2026"],
       "aliases": []
     },
     {
@@ -294,11 +293,11 @@
       "kind": "city",
       "label": "Newcastle",
       "parentRegionId": "gb-north-east",
-      "amountMinor": 454,
+      "amountMinor": 528,
       "currency": "GBP",
-      "observedAt": "2025-08-27",
-      "sourceIds": ["finder-pint-guide"],
-      "aliases": ["Newcastle upon Tyne"]
+      "observedAt": "2026-04-01",
+      "sourceIds": ["finder-city-prices-2026"],
+      "aliases": ["Newcastle upon Tyne", "Newcastle-upon-Tyne"]
     },
     {
       "id": "gb-bristol",
@@ -306,10 +305,10 @@
       "kind": "city",
       "label": "Bristol",
       "parentRegionId": "gb-south-west",
-      "amountMinor": 532,
+      "amountMinor": 600,
       "currency": "GBP",
-      "observedAt": "2025-08-27",
-      "sourceIds": ["finder-pint-guide"],
+      "observedAt": "2026-04-01",
+      "sourceIds": ["finder-city-prices-2026"],
       "aliases": []
     },
     {
@@ -318,10 +317,10 @@
       "kind": "city",
       "label": "Cardiff",
       "parentRegionId": "gb-wales",
-      "amountMinor": 448,
+      "amountMinor": 518,
       "currency": "GBP",
-      "observedAt": "2025-08-27",
-      "sourceIds": ["finder-pint-guide"],
+      "observedAt": "2026-04-01",
+      "sourceIds": ["finder-city-prices-2026"],
       "aliases": []
     },
     {
@@ -330,10 +329,10 @@
       "kind": "city",
       "label": "Edinburgh",
       "parentRegionId": "gb-scotland",
-      "amountMinor": 532,
+      "amountMinor": 600,
       "currency": "GBP",
-      "observedAt": "2025-08-27",
-      "sourceIds": ["finder-pint-guide"],
+      "observedAt": "2026-04-01",
+      "sourceIds": ["finder-city-prices-2026"],
       "aliases": []
     },
     {
@@ -342,10 +341,10 @@
       "kind": "city",
       "label": "Glasgow",
       "parentRegionId": "gb-scotland",
-      "amountMinor": 475,
+      "amountMinor": 488,
       "currency": "GBP",
-      "observedAt": "2025-08-27",
-      "sourceIds": ["finder-pint-guide"],
+      "observedAt": "2026-04-01",
+      "sourceIds": ["finder-city-prices-2026"],
       "aliases": []
     },
     {
@@ -354,10 +353,10 @@
       "kind": "city",
       "label": "Belfast",
       "parentRegionId": "gb-northern-ireland",
-      "amountMinor": 455,
+      "amountMinor": 597,
       "currency": "GBP",
-      "observedAt": "2025-08-27",
-      "sourceIds": ["finder-pint-guide"],
+      "observedAt": "2026-04-01",
+      "sourceIds": ["finder-city-prices-2026"],
       "aliases": []
     }
   ]

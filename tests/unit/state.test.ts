@@ -8,10 +8,10 @@ const resolved: ResolvedPrice = {
     kind: "city",
     label: "Manchester",
     parentRegionId: "gb-north-west",
-    amountMinor: 478,
+    amountMinor: 572,
     currency: "GBP",
     observedAt: "2025-08-27",
-    sourceIds: ["finder-pint-guide"],
+    sourceIds: ["finder-city-prices-2026"],
     aliases: [],
   },
   level: "city",
@@ -48,5 +48,11 @@ describe("application state", () => {
     expect(
       transition({ status: "resolved", resolved }, { type: "reset" }),
     ).toEqual(initialState);
+  });
+
+  it("preserves the current estimate while editing", () => {
+    expect(
+      transition({ status: "resolved", resolved }, { type: "edit" }),
+    ).toMatchObject({ status: "editing", resolved });
   });
 });

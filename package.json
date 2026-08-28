@@ -12,8 +12,11 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest run",
-    "test:e2e": "playwright test",
-    "data:refresh-ons": "node scripts/refresh-ons-baseline.mjs"
+    "test:e2e": "npm run build && playwright test",
+    "price:validate": "node scripts/validate-price-data.mjs",
+    "price:check-expiry": "node scripts/validate-price-data.mjs --horizon-days=60",
+    "payment:validate": "node scripts/validate-payment-config.mjs",
+    "build:production": "npm run payment:validate && npm run price:validate && npm run build"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.0",

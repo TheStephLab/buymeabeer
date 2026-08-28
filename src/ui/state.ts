@@ -3,9 +3,9 @@ import type { AppState, ResolvedPrice } from "../types";
 export type AppEvent =
   | { type: "start" }
   | { type: "resolved"; value: ResolvedPrice }
+  | { type: "edit" }
   | { type: "unsupported" }
   | { type: "needs-manual-location"; message: string }
-  | { type: "error"; message: string }
   | { type: "reset" };
 
 export const initialState: AppState = { status: "idle" };
@@ -16,6 +16,12 @@ export function transition(state: AppState, event: AppEvent): AppState {
       return { status: "locating", message: "Finding a nearby pint price…" };
     case "resolved":
       return { status: "resolved", resolved: event.value };
+    case "edit":
+      return {
+        status: "editing",
+        resolved: state.resolved,
+        message: "Choose another UK city or region.",
+      };
     case "unsupported":
       return {
         status: "unsupported",
@@ -24,8 +30,6 @@ export function transition(state: AppState, event: AppEvent): AppState {
       };
     case "needs-manual-location":
       return { status: "needs-manual-location", message: event.message };
-    case "error":
-      return { status: "error", message: event.message };
     case "reset":
       return initialState;
     default:

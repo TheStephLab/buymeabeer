@@ -262,10 +262,9 @@ export function createApp(
               `<a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.publisher)}</a>`,
           )
           .join(" · ")}.</p>
-        <nav class="footer-links" aria-label="Legal and contact">
+        <nav class="footer-links" aria-label="Legal">
           <a href="./legal.html#terms">Gift terms</a>
           <a href="./legal.html#privacy">Privacy notice</a>
-          <a href="mailto:stephan.pieri@gmail.com">Contact</a>
         </nav>
       </footer>
     </div>

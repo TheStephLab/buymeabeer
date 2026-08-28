@@ -1,0 +1,364 @@
+{
+  "schemaVersion": "1.0",
+  "datasetVersion": "2026.08.19",
+  "reviewedAt": "2026-08-19",
+  "supportedCountries": ["GB"],
+  "nationalBenchmarkZoneId": "gb-national",
+  "sources": [
+    {
+      "id": "ons-czms",
+      "publisher": "Office for National Statistics",
+      "title": "RPI: Average price of draught lager, per pint (CZMS)",
+      "url": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/czms/mm23",
+      "publishedAt": "2026-08-19",
+      "accessedAt": "2026-08-27",
+      "licence": "Open Government Licence v3.0",
+      "methodologyNote": "Latest usable monthly observation in this ONS series: 2025 JAN, 483 pence."
+    },
+    {
+      "id": "finder-pint-guide",
+      "publisher": "Finder",
+      "title": "International Pint Price Map",
+      "url": "https://www.finder.com/uk/banking/international-pint-price-map",
+      "publishedAt": "2025-08-27",
+      "accessedAt": "2026-08-19",
+      "methodologyNote": "Regional and city estimates are an editorial indication based on the guide's public UK comparisons; they are not a venue quote."
+    }
+  ],
+  "zones": [
+    {
+      "id": "gb-national",
+      "countryCode": "GB",
+      "kind": "country",
+      "label": "UK average",
+      "amountMinor": 483,
+      "currency": "GBP",
+      "observedAt": "2025-01-01",
+      "sourceIds": ["ons-czms"],
+      "aliases": ["United Kingdom", "Great Britain", "England"]
+    },
+    {
+      "id": "gb-london",
+      "countryCode": "GB",
+      "kind": "region",
+      "label": "London",
+      "amountMinor": 648,
+      "currency": "GBP",
+      "observedAt": "2025-08-27",
+      "sourceIds": ["finder-pint-guide"],
+      "aliases": ["Greater London", "Inner London", "Outer London"]
+    },
+    {
+      "id": "gb-scotland",
+      "countryCode": "GB",
+      "kind": "region",
+      "label": "Scotland",
+      "amountMinor": 475,
+      "currency": "GBP",
+      "observedAt": "2025-08-27",
+      "sourceIds": ["finder-pint-guide"],
+      "aliases": []
+    },
+    {
+      "id": "gb-wales",
+      "countryCode": "GB",
+      "kind": "region",
+      "label": "Wales",
+      "amountMinor": 442,
+      "currency": "GBP",
+      "observedAt": "2025-08-27",
+      "sourceIds": ["finder-pint-guide"],
+      "aliases": []
+    },
+    {
+      "id": "gb-northern-ireland",
+      "countryCode": "GB",
+      "kind": "region",
+      "label": "Northern Ireland",
+      "amountMinor": 431,
+      "currency": "GBP",
+      "observedAt": "2025-08-27",
+      "sourceIds": ["finder-pint-guide"],
+      "aliases": ["N. Ireland", "Ulster"]
+    },
+    {
+      "id": "gb-north-east",
+      "countryCode": "GB",
+      "kind": "region",
+      "label": "North East",
+      "amountMinor": 440,
+      "currency": "GBP",
+      "observedAt": "2025-08-27",
+      "sourceIds": ["finder-pint-guide"],
+      "aliases": [
+        "North East England",
+        "Tyne and Wear",
+        "County Durham",
+        "Northumberland"
+      ]
+    },
+    {
+      "id": "gb-north-west",
+      "countryCode": "GB",
+      "kind": "region",
+      "label": "North West",
+      "amountMinor": 462,
+      "currency": "GBP",
+      "observedAt": "2025-08-27",
+      "sourceIds": ["finder-pint-guide"],
+      "aliases": [
+        "North West England",
+        "Merseyside",
+        "Greater Manchester",
+        "Lancashire",
+        "Cumbria",
+        "Cheshire"
+      ]
+    },
+    {
+      "id": "gb-yorkshire-humber",
+      "countryCode": "GB",
+      "kind": "region",
+      "label": "Yorkshire and the Humber",
+      "amountMinor": 451,
+      "currency": "GBP",
+      "observedAt": "2025-08-27",
+      "sourceIds": ["finder-pint-guide"],
+      "aliases": [
+        "Yorkshire",
+        "The Humber",
+        "East Riding of Yorkshire",
+        "South Yorkshire",
+        "West Yorkshire",
+        "North Yorkshire"
+      ]
+    },
+    {
+      "id": "gb-east-midlands",
+      "countryCode": "GB",
+      "kind": "region",
+      "label": "East Midlands",
+      "amountMinor": 460,
+      "currency": "GBP",
+      "observedAt": "2025-08-27",
+      "sourceIds": ["finder-pint-guide"],
+      "aliases": [
+        "Derbyshire",
+        "Leicestershire",
+        "Lincolnshire",
+        "Northamptonshire",
+        "Nottinghamshire",
+        "Rutland"
+      ]
+    },
+    {
+      "id": "gb-west-midlands",
+      "countryCode": "GB",
+      "kind": "region",
+      "label": "West Midlands",
+      "amountMinor": 467,
+      "currency": "GBP",
+      "observedAt": "2025-08-27",
+      "sourceIds": ["finder-pint-guide"],
+      "aliases": [
+        "West Midlands County",
+        "Shropshire",
+        "Staffordshire",
+        "Warwickshire",
+        "Worcestershire",
+        "Herefordshire"
+      ]
+    },
+    {
+      "id": "gb-east-of-england",
+      "countryCode": "GB",
+      "kind": "region",
+      "label": "East of England",
+      "amountMinor": 492,
+      "currency": "GBP",
+      "observedAt": "2025-08-27",
+      "sourceIds": ["finder-pint-guide"],
+      "aliases": [
+        "East Anglia",
+        "Bedfordshire",
+        "Cambridgeshire",
+        "Essex",
+        "Hertfordshire",
+        "Norfolk",
+        "Suffolk"
+      ]
+    },
+    {
+      "id": "gb-south-east",
+      "countryCode": "GB",
+      "kind": "region",
+      "label": "South East",
+      "amountMinor": 543,
+      "currency": "GBP",
+      "observedAt": "2025-08-27",
+      "sourceIds": ["finder-pint-guide"],
+      "aliases": [
+        "Berkshire",
+        "Buckinghamshire",
+        "East Sussex",
+        "Hampshire",
+        "Isle of Wight",
+        "Kent",
+        "Oxfordshire",
+        "Surrey",
+        "West Sussex"
+      ]
+    },
+    {
+      "id": "gb-south-west",
+      "countryCode": "GB",
+      "kind": "region",
+      "label": "South West",
+      "amountMinor": 517,
+      "currency": "GBP",
+      "observedAt": "2025-08-27",
+      "sourceIds": ["finder-pint-guide"],
+      "aliases": [
+        "Bristol",
+        "Cornwall",
+        "Devon",
+        "Dorset",
+        "Gloucestershire",
+        "Somerset",
+        "Wiltshire"
+      ]
+    },
+    {
+      "id": "gb-london-city",
+      "countryCode": "GB",
+      "kind": "city",
+      "label": "London",
+      "parentRegionId": "gb-london",
+      "amountMinor": 648,
+      "currency": "GBP",
+      "observedAt": "2025-08-27",
+      "sourceIds": ["finder-pint-guide"],
+      "aliases": ["City of London", "Westminster"]
+    },
+    {
+      "id": "gb-birmingham",
+      "countryCode": "GB",
+      "kind": "city",
+      "label": "Birmingham",
+      "parentRegionId": "gb-west-midlands",
+      "amountMinor": 483,
+      "currency": "GBP",
+      "observedAt": "2025-08-27",
+      "sourceIds": ["finder-pint-guide"],
+      "aliases": []
+    },
+    {
+      "id": "gb-manchester",
+      "countryCode": "GB",
+      "kind": "city",
+      "label": "Manchester",
+      "parentRegionId": "gb-north-west",
+      "amountMinor": 478,
+      "currency": "GBP",
+      "observedAt": "2025-08-27",
+      "sourceIds": ["finder-pint-guide"],
+      "aliases": []
+    },
+    {
+      "id": "gb-liverpool",
+      "countryCode": "GB",
+      "kind": "city",
+      "label": "Liverpool",
+      "parentRegionId": "gb-north-west",
+      "amountMinor": 470,
+      "currency": "GBP",
+      "observedAt": "2025-08-27",
+      "sourceIds": ["finder-pint-guide"],
+      "aliases": []
+    },
+    {
+      "id": "gb-leeds",
+      "countryCode": "GB",
+      "kind": "city",
+      "label": "Leeds",
+      "parentRegionId": "gb-yorkshire-humber",
+      "amountMinor": 464,
+      "currency": "GBP",
+      "observedAt": "2025-08-27",
+      "sourceIds": ["finder-pint-guide"],
+      "aliases": []
+    },
+    {
+      "id": "gb-newcastle",
+      "countryCode": "GB",
+      "kind": "city",
+      "label": "Newcastle",
+      "parentRegionId": "gb-north-east",
+      "amountMinor": 454,
+      "currency": "GBP",
+      "observedAt": "2025-08-27",
+      "sourceIds": ["finder-pint-guide"],
+      "aliases": ["Newcastle upon Tyne"]
+    },
+    {
+      "id": "gb-bristol",
+      "countryCode": "GB",
+      "kind": "city",
+      "label": "Bristol",
+      "parentRegionId": "gb-south-west",
+      "amountMinor": 532,
+      "currency": "GBP",
+      "observedAt": "2025-08-27",
+      "sourceIds": ["finder-pint-guide"],
+      "aliases": []
+    },
+    {
+      "id": "gb-cardiff",
+      "countryCode": "GB",
+      "kind": "city",
+      "label": "Cardiff",
+      "parentRegionId": "gb-wales",
+      "amountMinor": 448,
+      "currency": "GBP",
+      "observedAt": "2025-08-27",
+      "sourceIds": ["finder-pint-guide"],
+      "aliases": []
+    },
+    {
+      "id": "gb-edinburgh",
+      "countryCode": "GB",
+      "kind": "city",
+      "label": "Edinburgh",
+      "parentRegionId": "gb-scotland",
+      "amountMinor": 532,
+      "currency": "GBP",
+      "observedAt": "2025-08-27",
+      "sourceIds": ["finder-pint-guide"],
+      "aliases": []
+    },
+    {
+      "id": "gb-glasgow",
+      "countryCode": "GB",
+      "kind": "city",
+      "label": "Glasgow",
+      "parentRegionId": "gb-scotland",
+      "amountMinor": 475,
+      "currency": "GBP",
+      "observedAt": "2025-08-27",
+      "sourceIds": ["finder-pint-guide"],
+      "aliases": []
+    },
+    {
+      "id": "gb-belfast",
+      "countryCode": "GB",
+      "kind": "city",
+      "label": "Belfast",
+      "parentRegionId": "gb-northern-ireland",
+      "amountMinor": 455,
+      "currency": "GBP",
+      "observedAt": "2025-08-27",
+      "sourceIds": ["finder-pint-guide"],
+      "aliases": []
+    }
+  ]
+}

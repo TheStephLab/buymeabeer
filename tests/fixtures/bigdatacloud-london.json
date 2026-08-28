@@ -1,0 +1,14 @@
+{
+  "countryCode": "GB",
+  "city": "London",
+  "locality": "City of Westminster",
+  "principalSubdivision": "England",
+  "postcode": "SW1Y 5",
+  "localityInfo": {
+    "administrative": [
+      { "name": "United Kingdom of Great Britain and Northern Ireland" },
+      { "name": "England" },
+      { "name": "London" }
+    ]
+  }
+}

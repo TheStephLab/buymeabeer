@@ -40,10 +40,12 @@ Every price must remain traceable to a source that explicitly publishes that loc
 
 Checkout is isolated behind a provider interface so hosted payment services can be changed without coupling them to location or pricing. The current adapter uses the documented `https://paypal.me/<profile>/<amount>GBP` format. It opens PayPal in a new tab, where the visitor reviews the amount. This static app cannot know whether a payment succeeded and does not claim otherwise.
 
+Before checkout is enabled, the visitor must confirm that the real payment is a voluntary personal gift with nothing supplied in return and accept the published gift terms. The legal page also provides a route for goodwill refund requests made within 14 days and a privacy notice covering location, hosting, session storage, PayPal transaction data, and data rights.
+
 The bundled display and body faces are [Fraunces](https://fontsource.org/fonts/fraunces) and [Alegreya Sans](https://fontsource.org/fonts/alegreya-sans), delivered as local Vite assets from Fontsource packages under their respective OFL licences.
 
 ## GitHub Pages
 
-Set **Settings → Pages → Source** to **GitHub Actions**, then add the repository variable `PAYPAL_ME_USERNAME` with the public PayPal.Me profile name. The deployment workflow runs only after CI succeeds on `main`, checks out that exact verified commit, runs the same profile validation as the application, builds, and deploys `dist` with the repository-safe `/buymeabeer/` base path.
+Set **Settings → Pages → Source** to **GitHub Actions**, configure `buymeabeer.co.uk` as the custom domain, then add the repository variable `PAYPAL_ME_USERNAME` with the public PayPal.Me profile name. The deployment workflow runs only after CI succeeds on `main`, checks out that exact verified commit, runs the same profile validation as the application, builds, and deploys `dist` at the custom domain root.
 
 Because this project is static, there are no accounts, server-side payments, analytics, cookies, webhooks, or service workers. Unsupported countries deliberately leave payment disabled rather than substituting a UK estimate.

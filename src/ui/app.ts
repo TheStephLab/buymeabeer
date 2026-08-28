@@ -219,11 +219,16 @@ export function createApp(
           <p id="price-source" class="price-source" hidden></p>
           <div class="location-actions">
             <button class="button button-primary" id="locate-button" type="button">Use my location</button>
+            <p class="location-consent">This asks your browser for coordinates and sends them to BigDataCloud. If unavailable, BigDataCloud may estimate your area from your IP address. <a href="./legal.html#privacy" target="_blank" rel="noopener noreferrer">Privacy notice</a>.</p>
             <label class="manual-label" for="manual-location">Or choose it yourself</label>
             <select id="manual-location" name="location">${optionGroups(dataset)}</select>
           </div>
+          <div class="gift-confirmation">
+            <input id="gift-acceptance" type="checkbox" disabled>
+            <label for="gift-acceptance">I understand this is a real, voluntary personal gift. No alcohol, goods, services or rewards are supplied in return, and I agree to the <a href="./legal.html#terms" target="_blank" rel="noopener noreferrer">gift terms</a>.</label>
+          </div>
           <a id="payment-link" class="button button-payment is-disabled" role="button" aria-disabled="true">Choose a location to buy a beer</a>
-          <p id="payment-note" class="payment-note">Payment opens with our payment provider. You can review the exact amount before paying.</p>
+          <p id="payment-note" class="payment-note">Payment opens with the payment provider. You can review the exact amount before paying.</p>
           <div class="card-tools">
             <button id="change-location" class="text-button" type="button" hidden>Change location</button>
             <button id="forget-location" class="text-button" type="button" hidden>Forget this location</button>
@@ -257,6 +262,11 @@ export function createApp(
               `<a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.publisher)}</a>`,
           )
           .join(" · ")}.</p>
+        <nav class="footer-links" aria-label="Legal and contact">
+          <a href="./legal.html#terms">Gift terms</a>
+          <a href="./legal.html#privacy">Privacy notice</a>
+          <a href="mailto:stephan.pieri@gmail.com">Contact</a>
+        </nav>
       </footer>
     </div>
   `;
@@ -287,6 +297,10 @@ export function createApp(
     root,
     "#payment-note",
   );
+  const giftAcceptance = requiredElement<HTMLInputElement>(
+    root,
+    "#gift-acceptance",
+  );
   const changeLocation = requiredElement<HTMLButtonElement>(
     root,
     "#change-location",
@@ -303,6 +317,7 @@ export function createApp(
   dataReview.textContent = `Dataset ${dataset.datasetVersion}; last reviewed ${dataset.reviewedAt}.`;
 
   const applyResolved = (resolved: ResolvedPrice): void => {
+    giftAcceptance.checked = false;
     state = transition(state, { type: "resolved", value: resolved });
     persistSelection(resolved);
     render();
@@ -315,6 +330,8 @@ export function createApp(
         ? paymentProvider.createPaymentUrl(resolved.zone.amountMinor)
         : undefined;
     const hasResolvedPrice = state.status === "resolved" && Boolean(resolved);
+    const canAcceptGiftTerms =
+      hasResolvedPrice && Boolean(paymentUrl) && state.status === "resolved";
 
     locationStatus.textContent =
       state.message ??
@@ -359,10 +376,11 @@ export function createApp(
     locateButton.textContent =
       state.status === "locating" ? "Finding your area…" : "Use my location";
     manualLocation.disabled = state.status === "locating";
+    giftAcceptance.disabled = !canAcceptGiftTerms;
     changeLocation.hidden = !hasResolvedPrice;
     forgetLocation.hidden = !hasResolvedPrice;
 
-    if (paymentUrl && resolved) {
+    if (paymentUrl && resolved && giftAcceptance.checked) {
       const amount = formatPounds(resolved.zone.amountMinor);
       paymentLink.href = paymentUrl.toString();
       paymentLink.target = "_blank";
@@ -372,7 +390,7 @@ export function createApp(
       paymentLink.removeAttribute("aria-disabled");
       paymentLink.removeAttribute("tabindex");
       paymentLink.textContent = `Buy me a beer for ${amount}`;
-      paymentNote.textContent = `Payment opens on ${paymentProvider.displayName}. You can review the exact amount before paying.`;
+      paymentNote.textContent = `This real one-off gift opens on ${paymentProvider.displayName}. Review the exact amount before paying.`;
     } else {
       paymentLink.removeAttribute("href");
       paymentLink.removeAttribute("target");
@@ -383,16 +401,21 @@ export function createApp(
         state.status === "editing"
           ? "Choose a new location to continue"
           : hasResolvedPrice
-            ? "Payment provider needs to be configured"
+            ? paymentUrl
+              ? "Confirm this is a voluntary gift"
+              : "Payment provider needs to be configured"
             : "Choose a location to buy a beer";
       paymentNote.textContent =
         hasResolvedPrice && paymentProvider.configurationError
           ? paymentProvider.configurationError
-          : `Payment opens on ${paymentProvider.displayName} once a UK price is selected.`;
+          : hasResolvedPrice && paymentUrl
+            ? "Read and accept the gift terms before continuing to PayPal."
+            : `Payment opens on ${paymentProvider.displayName} once a UK price is selected.`;
     }
   };
 
   locateButton.addEventListener("click", async () => {
+    giftAcceptance.checked = false;
     state = transition(state, { type: "start" });
     render();
 
@@ -458,6 +481,7 @@ export function createApp(
   });
 
   changeLocation.addEventListener("click", () => {
+    giftAcceptance.checked = false;
     state = transition(state, { type: "edit" });
     manualLocation.value = "";
     render();
@@ -465,6 +489,7 @@ export function createApp(
   });
 
   forgetLocation.addEventListener("click", () => {
+    giftAcceptance.checked = false;
     removeStoredSelection();
     manualLocation.value = "";
     state = transition(state, { type: "reset" });
@@ -476,6 +501,8 @@ export function createApp(
       event.preventDefault();
     }
   });
+
+  giftAcceptance.addEventListener("change", render);
 
   render();
 }

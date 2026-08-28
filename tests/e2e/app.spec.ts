@@ -66,7 +66,7 @@ test("starts private and creates an exact manual payment link", async ({
 
   await expect(page.locator('script[type="module"]')).toHaveAttribute(
     "src",
-    /\/buymeabeer\/assets\/index-/,
+    /^\/assets\/main-/,
   );
   await expect(
     page.getByRole("button", { name: "Choose a location to buy a beer" }),
@@ -77,6 +77,13 @@ test("starts private and creates an exact manual payment link", async ({
   await page.locator("#manual-location").selectOption("gb-manchester");
   await expect(page.getByText("Average in Manchester")).toBeVisible();
   await expect(page.getByText(amount, { exact: true })).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Confirm this is a voluntary gift" }),
+  ).toHaveAttribute("aria-disabled", "true");
+
+  await page
+    .getByRole("checkbox", { name: /real, voluntary personal gift/i })
+    .check();
 
   const href = await page
     .getByRole("button", { name: `Buy me a beer for ${amount}` })
@@ -184,15 +191,46 @@ test("restores and forgets a session-only selection", async ({ page }) => {
 test("disables the old payment while changing location", async ({ page }) => {
   await page.goto("./");
   await page.locator("#manual-location").selectOption("gb-manchester");
+  await page
+    .getByRole("checkbox", { name: /real, voluntary personal gift/i })
+    .check();
+  await expect(
+    page.getByRole("button", { name: /Buy me a beer for/ }),
+  ).toHaveAttribute("href", /paypal\.me/);
   await page.getByRole("button", { name: "Change location" }).click();
 
   await expect(
     page.getByRole("button", { name: "Choose a new location to continue" }),
   ).toHaveAttribute("aria-disabled", "true");
+  await expect(
+    page.getByRole("checkbox", { name: /real, voluntary personal gift/i }),
+  ).not.toBeChecked();
   await expect(page.locator("#manual-location")).toBeFocused();
 
   await page.locator("#manual-location").selectOption("gb-liverpool");
   await expect(page.getByText("Average in Liverpool")).toBeVisible();
+});
+
+test("publishes clear gift terms and a privacy notice", async ({ page }) => {
+  await page.goto("./legal.html");
+
+  await expect(
+    page.getByRole("heading", { name: "Terms for voluntary gifts" }),
+  ).toBeVisible();
+  await expect(
+    page.getByText(/payment itself is real and will be accepted/i),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Privacy notice" }),
+  ).toBeVisible();
+  await expect(
+    page
+      .getByLabel("Terms for voluntary gifts")
+      .getByRole("link", { name: "stephan.pieri@gmail.com" }),
+  ).toHaveAttribute("href", "mailto:stephan.pieri@gmail.com");
+
+  const results = await new AxeBuilder({ page }).analyze();
+  expect(results.violations).toEqual([]);
 });
 
 test("does not enable payment for an automatically detected non-UK location", async ({

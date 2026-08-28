@@ -59,13 +59,15 @@ body::before {
 }
 
 button,
-select {
+select,
+input {
   font: inherit;
 }
 
 button,
 a,
 select,
+input,
 summary {
   -webkit-tap-highlight-color: transparent;
 }
@@ -323,6 +325,13 @@ h1 em {
   font-weight: 650;
 }
 
+.location-consent {
+  margin: -0.2rem 0 0.15rem;
+  color: var(--ink-soft);
+  font-size: 0.86rem;
+  line-height: 1.2;
+}
+
 select {
   width: 100%;
   min-height: 3rem;
@@ -340,10 +349,45 @@ select {
   cursor: pointer;
 }
 
+.gift-confirmation {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.15rem 1fr;
+  gap: 0.7rem;
+  margin-top: 1.35rem;
+  padding: 0.9rem;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: rgba(182, 128, 40, 0.08);
+  color: var(--ink-soft);
+  font-size: 0.91rem;
+  line-height: 1.18;
+}
+
+.gift-confirmation input {
+  width: 1.15rem;
+  height: 1.15rem;
+  margin: 0.08rem 0 0;
+  accent-color: var(--burgundy);
+}
+
+.gift-confirmation:has(input:disabled) {
+  opacity: 0.62;
+}
+
+.gift-confirmation label {
+  cursor: pointer;
+}
+
+.gift-confirmation:has(input:disabled) label {
+  cursor: not-allowed;
+}
+
 .button-payment {
   position: relative;
   z-index: 1;
-  margin-top: 1.55rem;
+  margin-top: 1rem;
   border-color: var(--burgundy);
   background: var(--burgundy);
   color: var(--cream);
@@ -470,6 +514,125 @@ footer p {
   margin: 0;
 }
 
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 1.2rem;
+  margin-top: 0.75rem;
+}
+
+.legal-shell {
+  width: min(100% - 2.25rem, 76rem);
+  margin: 0 auto;
+}
+
+.legal-main {
+  display: grid;
+  grid-template-columns: minmax(15rem, 0.55fr) minmax(0, 1fr);
+  gap: clamp(2.5rem, 8vw, 8rem);
+  padding: clamp(3.5rem, 8vw, 7rem) 0;
+}
+
+.legal-hero {
+  align-self: start;
+}
+
+.legal-hero h1 {
+  max-width: 7ch;
+  font-size: clamp(3.7rem, 7.5vw, 6.8rem);
+}
+
+.legal-intro {
+  max-width: 28rem;
+  color: var(--ink-soft);
+  font-size: 1.2rem;
+  line-height: 1.3;
+}
+
+.legal-callout {
+  max-width: 31rem;
+  margin-top: 2rem;
+  padding: 1.2rem 1.3rem;
+  border: 1px solid var(--ink);
+  border-left: 0.45rem solid var(--burgundy);
+  background: var(--cream);
+  box-shadow: 0.4rem 0.4rem 0 var(--brass);
+  line-height: 1.25;
+}
+
+.legal-callout p {
+  margin: 0.4rem 0 0;
+}
+
+.legal-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.25rem;
+  margin-top: 2rem;
+  font-weight: 700;
+}
+
+.legal-document {
+  max-width: 48rem;
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+  line-height: 1.42;
+}
+
+.legal-document section {
+  scroll-margin-top: 1.5rem;
+}
+
+.legal-document section + section {
+  margin-top: 5rem;
+}
+
+.legal-document h2 {
+  margin: 0 0 0.6rem;
+  padding-top: 1rem;
+  border-top: 3px solid var(--ink);
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 550;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+.legal-document h3 {
+  margin: 2rem 0 0.45rem;
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 1.45rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.legal-document p,
+.legal-document ul {
+  margin: 0.55rem 0 1rem;
+}
+
+.legal-document li + li {
+  margin-top: 0.4rem;
+}
+
+.legal-version {
+  color: var(--burgundy);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.legal-document address {
+  font-style: normal;
+}
+
+.legal-footer {
+  margin-top: 0;
+}
+
 .noscript,
 .system-message {
   max-width: 40rem;
@@ -508,8 +671,14 @@ footer p {
   }
 
   .trust-strip,
-  .details-grid {
+  .details-grid,
+  .legal-main {
     grid-template-columns: 1fr;
+  }
+
+  .legal-main {
+    gap: 4rem;
+    padding-top: 3.7rem;
   }
 
   .trust-strip p + p {

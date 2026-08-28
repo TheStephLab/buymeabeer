@@ -7,7 +7,7 @@ export default defineConfig({
   fullyParallel: true,
   workers: 4,
   use: {
-    baseURL: "http://127.0.0.1:4173/buymeabeer/",
+    baseURL: "http://127.0.0.1:4173/",
     ...(browserChannel ? { channel: browserChannel } : {}),
     trace: "on-first-retry",
   },
@@ -20,7 +20,7 @@ export default defineConfig({
   ],
   webServer: {
     command: "npm run preview -- --host 127.0.0.1 --port 4173",
-    url: "http://127.0.0.1:4173/buymeabeer/",
+    url: "http://127.0.0.1:4173/",
     reuseExistingServer: !process.env.CI,
   },
 });

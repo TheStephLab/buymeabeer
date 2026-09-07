@@ -5,14 +5,15 @@ on:
     workflows: ["Quality checks"]
     types: [completed]
 
+# Deploys the production site to the gh-pages branch (branch-based Pages).
+# Branch-based deployment is required so that rossjrw/pr-preview-action can
+# publish per-PR previews into the same branch under pr-preview/.
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
-  group: pages
-  cancel-in-progress: true
+  group: pages-production
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -20,15 +21,11 @@ jobs:
       github.event.workflow_run.conclusion == 'success' &&
       github.event.workflow_run.event == 'push' &&
       github.event.workflow_run.head_branch == 'main'
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
         with:
           ref: ${{ github.event.workflow_run.head_sha }}
-      - uses: actions/configure-pages@v6
       - uses: actions/setup-node@v7
         with:
           node-version-file: .node-version
@@ -38,8 +35,12 @@ jobs:
         env:
           VITE_PAYPAL_ME_USERNAME: ${{ vars.PAYPAL_ME_USERNAME }}
         run: npm run build:production
-      - uses: actions/upload-pages-artifact@v5
+      - name: Preserve custom domain
+        run: echo "buymeabeer.co.uk" > dist/CNAME
+      - name: Deploy to gh-pages
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          path: dist
-      - id: deployment
-        uses: actions/deploy-pages@v5
+          branch: gh-pages
+          folder: dist
+          # Never delete live PR previews when publishing production.
+          clean-exclude: pr-preview/

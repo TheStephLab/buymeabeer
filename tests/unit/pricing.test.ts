@@ -8,7 +8,7 @@ import {
 import type { PriceDataset } from "../../src/types";
 
 const dataset = datasetJson as PriceDataset;
-const reviewDate = new Date("2026-08-28T12:00:00Z");
+const reviewDate = new Date("2026-09-05T12:00:00Z");
 
 describe("price dataset", () => {
   it("has complete UK fallback coverage and valid source references", () => {

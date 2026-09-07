@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f4ead5"/>
+  <rect x="72" y="72" width="1056" height="486" fill="none" stroke="#1d1a15" stroke-width="4"/>
+  <rect x="92" y="92" width="1016" height="446" fill="none" stroke="#b68028" stroke-width="2"/>
+  <text x="150" y="210" fill="#641f2c" font-family="Georgia, serif" font-size="56" letter-spacing="12">BUY ME A BEER</text>
+  <text x="150" y="345" fill="#1d1a15" font-family="Georgia, serif" font-size="110">A pint,</text>
+  <text x="150" y="457" fill="#641f2c" font-family="Georgia, serif" font-size="110" font-style="italic">priced where you are.</text>
+  <path d="M960 200h95v190h-95z" fill="#b68028" stroke="#1d1a15" stroke-width="6"/><path d="M1055 245h35c35 0 35 100 0 100h-35" fill="none" stroke="#1d1a15" stroke-width="16"/><path d="M972 250c20-35 30 30 50 0 15-25 24 22 32 0" fill="none" stroke="#f4ead5" stroke-width="8"/>
+</svg>
